@@ -1,0 +1,38 @@
+@startuml
+title Simplified State Diagram for Smartphone Security Subsystem
+
+[*] --> Locked
+
+state "Security System" as Security {
+    state "Locked" as Locked {
+        [*] --> Waiting
+        Waiting --> PIN : Enter PIN
+        Waiting --> Password : Enter Password
+        Waiting --> Biometric : Biometric scan
+
+        PIN --> Authenticated : Correct PIN
+        Password --> Authenticated : Correct Password
+        Biometric --> Authenticated : Successful scan
+
+        PIN --> Locked : Incorrect PIN
+        Password --> Locked : Incorrect Password
+        Biometric --> Locked : Failed scan
+
+        Authenticated --> Unlocked
+        Waiting --> Breach : Too many failed attempts
+    }
+
+    state "Unlocked" as Unlocked {
+        [*] --> Active
+        Active --> Idle : Timeout
+        Active --> Locked : User locks
+        Idle --> Active : User interaction
+
+        Locked --> Locked : Breach detected
+    }
+}
+
+Locked --> Unlocked : Authentication success
+Unlocked --> Locked : Locking manually or breach
+
+@enduml

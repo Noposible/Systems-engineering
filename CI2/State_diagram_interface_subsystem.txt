@@ -1,0 +1,44 @@
+@startuml
+title State diagram for smartphone interface subsystem
+
+[*] --> Idle
+
+state "Interface System" as Interface {
+    [*] --> Screen_Off
+
+    state "Screen Off" as ScreenOff {
+        ScreenOff --> Screen_On : Power button pressed
+    }
+
+    state "Screen On" as ScreenOn {
+        [*] --> Main_Screen
+        Main_Screen --> App_Menu : Open app menu
+        App_Menu --> Main_Screen : Close app menu
+        Main_Screen --> Lock_Screen : Lock screen
+        Lock_Screen --> Main_Screen : Unlock screen
+        Main_Screen --> Screen_Off : Timeout or power button pressed
+    }
+
+    state "Lock Screen" as LockScreen {
+        [*] --> Locked
+        Locked --> Unlocked : Unlock with PIN or password
+        Locked --> Screen_On : Power button pressed
+    }
+
+    state "Main Screen" as MainScreen {
+        [*] --> Home_Screen
+        Home_Screen --> Open_App : Launch app
+        Open_App --> Home_Screen : Close app
+    }
+
+    state "App Menu" as AppMenu {
+        [*] --> App_List
+        App_List --> Main_Screen : Open app from menu
+        App_List --> App_List : Scroll through apps
+    }
+}
+
+Screen_Off --> ScreenOn : Power button pressed
+ScreenOn --> ScreenOff : Power button pressed or timeout
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+title State diagram of the smartphone software subsystem
+
+[*] --> OS_Loading
+
+state "Operating System" as OS {
+    OS_Loading --> Home_Screen : Loading completed
+
+    state "Menu and Applications" as Menu {
+        [*] --> Home_Screen
+        Home_Screen --> Launch_Application : Open application
+        Launch_Application --> Running_Application : Application active
+        Running_Application --> Background_Work : Switching app
+        Background_Work --> Running_Application : Returning to app
+        Running_Application --> Home_Screen : Close application
+    }
+
+    state "Background Processes" as Background {
+        [*] --> OS_Services
+        OS_Services --> Data_Synchronization : Auto-update
+        OS_Services --> OS_Update : New OS update
+        OS_Update --> Restart_OS : Update completed
+        Data_Synchronization --> OS_Services : Synchronization completed
+    }
+
+    Home_Screen --> Menu : Press menu button
+    Menu --> Home_Screen : Press "Home" button
+    Home_Screen --> Home_Screen : Switch between apps
+}
+
+OS_Loading --> OS : Loading completed
+OS --> Restart_OS : Restart
+OS --> Shutdown : Turn off device
+Shutdown --> OS_Loading : Press power button
+
+@enduml

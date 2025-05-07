@@ -1,0 +1,45 @@
+@startuml
+title State diagram for smartphone power subsystem
+
+[*] --> Powered_Off
+
+state "Power System" as Power {
+    [*] --> Powering_On
+
+    state "Powering On" as PowerOn {
+        Powering_On --> Powered_On : Powering up completed
+    }
+
+    state "Powered On" as PoweredOn {
+        [*] --> Idle
+        Idle --> Display_On : Display activated
+        Display_On --> Idle : Display turned off
+        Idle --> Active : User interaction detected
+        Active --> Idle : User idle timeout
+        Active --> Low_Battery : Battery below threshold
+        Low_Battery --> Charging : Device plugged in for charging
+        Charging --> Powered_On : Charging completed
+    }
+
+    state "Powered Off" as PoweredOff {
+        Powered_Off --> Powering_On : Power button pressed
+    }
+
+    state "Charging" as Charging {
+        [*] --> Charging_Active
+        Charging_Active --> Fully_Charged : Battery full
+        Fully_Charged --> Charging_Active : Battery discharges slightly
+        Charging_Active --> Powered_On : Charging completed
+    }
+
+    state "Low Battery" as LowBattery {
+        [*] --> Warning
+        Warning --> Charging : Device plugged in for charging
+        Charging --> Low_Battery : Charging ongoing
+    }
+}
+
+Powered_Off --> Powered_On : Power button pressed
+Powered_On --> Powered_Off : Power off command
+
+@enduml

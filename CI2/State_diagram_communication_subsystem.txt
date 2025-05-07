@@ -1,0 +1,42 @@
+@startuml
+title State diagram of the communication subsystem of a smartphone
+
+[*] --> Waiting_for_connection
+
+state "Communication Subsystem" as Communication {
+    state "Call" as Call {
+        Waiting_for_connection --> Incoming_call : Incoming call
+        Incoming_call --> Active_call : Call accepted
+        Active_call --> Call_ended : End call
+        Call_ended --> Waiting_for_connection : Returning to waiting mode
+
+        Waiting_for_connection --> Outgoing_call : Making a call
+        Outgoing_call --> Active_call : Call connected
+        Active_call --> Call_ended : End call
+    }
+
+    state "Internet and Connectivity" as Internet {
+        [*] --> Connection_off
+        Connection_off --> WiFi_on : Connect to WiFi
+        Connection_off --> Mobile_data_on : Connect to mobile data
+        Connection_off --> Bluetooth_on : Turn Bluetooth on
+        Connection_off --> GPS_on : Turn GPS on
+
+        WiFi_on --> Connection_off : Disconnect WiFi
+        Mobile_data_on --> Connection_off : Disconnect mobile data
+        Bluetooth_on --> Connection_off : Turn Bluetooth off
+        GPS_on --> Connection_off : Turn GPS off
+    }
+
+    state "Messages and Media" as Messages {
+        [*] --> Waiting_for_messages
+        Waiting_for_messages --> Incoming_message : Message received
+        Incoming_message --> View_message : Viewing the message
+        View_message --> Waiting_for_messages : Return to waiting
+        Waiting_for_messages --> Write_message : Write a message
+        Write_message --> Send_message : Send the message
+        Send_message --> Waiting_for_messages : Return to waiting
+    }
+}
+
+@enduml

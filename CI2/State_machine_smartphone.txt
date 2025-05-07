@@ -1,0 +1,34 @@
+@startuml
+title Smartphone State Machine Diagram
+
+[*] --> Off
+
+Off --> ON : power on
+ON --> Off : power off
+
+state "Smartphone ON" as ON {
+    [*] --> Locked
+    
+    state "Locked Screen" as Locked {
+        [*] --> LockedIdle
+        LockedIdle --> Unlocked : user authentication
+    }
+
+    state "Unlocked Screen" as Unlocked {
+        [*] --> Ready
+        Ready --> Calling : call initiated
+        Calling --> Ready : call ended
+        Ready --> Sleeping : inactivity timeout
+        Sleeping --> Ready : power button pressed
+    }
+
+    Locked --> Unlocked : user authentication
+    Unlocked --> Locked : screen timeout
+    Unlocked --> Locked : power button pressed
+}
+
+[*] --> Charging : charger connected
+Charging --> Off : charger disconnected
+Charging --> ON : boot complete
+
+@enduml

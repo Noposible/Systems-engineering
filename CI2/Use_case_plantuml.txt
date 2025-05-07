@@ -1,0 +1,123 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #FAFAFA
+  BorderColor Black
+  ArrowColor DarkGray
+}
+
+actor User
+actor Network
+actor Attacker
+
+package "Smartphone" {
+
+  package "1. Power Management Subsystem" {
+    usecase "Turn On"
+    usecase "Turn Off"
+    usecase "Charge Device"
+    usecase "Low Battery Notification" <<extend>>
+    usecase "Optimize Power Consumption"
+  }
+
+  package "2. Interface Subsystem" {
+    usecase "Interact with Interface"
+    usecase "Receive Notification"
+    usecase "Set Theme"
+    usecase "Enable Dark Mode" <<extend>>
+    usecase "Voice Control"
+  }
+
+  package "3. Software Subsystem" {
+    usecase "Launch App"
+    usecase "Update Software"
+    usecase "Process OS Requests"
+    usecase "Background Processes"
+  }
+
+  package "4. Communication Subsystem" {
+    usecase "Make a Call"
+    usecase "Connect to Wi-Fi"
+    usecase "Sync with Cloud"
+    usecase "Send/Receive Message"
+    usecase "Mobile Network Access"
+    usecase "Bluetooth Exchange"
+  }
+
+  package "5. Security Subsystem" {
+    usecase "Unlock Device"
+    usecase "Authentication"
+    usecase "Encrypt Data"
+    usecase "Detect Threat" <<extend>>
+    usecase "Remote Lock" <<extend>>
+    usecase "Check Security Updates"
+  }
+
+  package "6. Hardware Subsystem" {
+    usecase "Use Touchscreen"
+    usecase "Use Camera"
+    usecase "Listen to Music"
+    usecase "Use Microphone"
+    usecase "Scan Face"
+    usecase "Use GPS"
+    usecase "Turn On Hardware"
+    usecase "Turn Off Hardware"
+  }
+}
+
+' --- User connections (<<uses>>)
+User --> "Turn On" : <<uses>>
+User --> "Turn Off" : <<uses>>
+User --> "Charge Device" : <<uses>>
+User --> "Interact with Interface" : <<uses>>
+User --> "Receive Notification" : <<uses>>
+User --> "Set Theme" : <<uses>>
+User --> "Voice Control" : <<uses>>
+User --> "Launch App" : <<uses>>
+User --> "Update Software" : <<uses>>
+User --> "Make a Call" : <<uses>>
+User --> "Connect to Wi-Fi" : <<uses>>
+User --> "Send/Receive Message" : <<uses>>
+User --> "Bluetooth Exchange" : <<uses>>
+User --> "Unlock Device" : <<uses>>
+User --> "Authentication" : <<uses>>
+User --> "Use Touchscreen" : <<uses>>
+User --> "Use Camera" : <<uses>>
+User --> "Listen to Music" : <<uses>>
+User --> "Use Microphone" : <<uses>>
+User --> "Scan Face" : <<uses>>
+User --> "Use GPS" : <<uses>>
+
+' --- Network connections (<<uses>>)
+Network --> "Connect to Wi-Fi" : <<uses>>
+Network --> "Sync with Cloud" : <<uses>>
+Network --> "Send/Receive Message" : <<uses>>
+Network --> "Mobile Network Access" : <<uses>>
+
+' --- Attacker connections (<<uses>>)
+Attacker --> "Detect Threat" : <<uses>>
+Attacker --> "Remote Lock" : <<uses>>
+
+' --- <<include>> connections
+"Update Software" --> "Process OS Requests" : <<include>>
+"Launch App" --> "Background Processes" : <<include>>
+"Connect to Wi-Fi" --> "Sync with Cloud" : <<include>>
+"Interact with Interface" --> "Receive Notification" : <<include>>
+"Interact with Interface" --> "Voice Control" : <<include>>
+"Send/Receive Message" --> "Mobile Network Access" : <<include>>
+"Unlock Device" --> "Authentication" : <<include>>
+"Authentication" --> "Scan Face" : <<include>>
+"Encrypt Data" --> "Check Security Updates" : <<include>>
+"Detect Threat" --> "Check Security Updates" : <<include>>
+"Use Touchscreen" --> "Interact with Interface" : <<include>>
+"Scan Face" --> "Use Camera" : <<include>>
+
+' --- <<extend>> connections
+"Charge Device" --> "Low Battery Notification" : <<extend>>
+"Set Theme" --> "Enable Dark Mode" : <<extend>>
+"Encrypt Data" --> "Detect Threat" : <<extend>>
+"Detect Threat" --> "Remote Lock" : <<extend>>
+"Turn On" --> "Optimize Power Consumption" : <<extend>>
+
+@enduml

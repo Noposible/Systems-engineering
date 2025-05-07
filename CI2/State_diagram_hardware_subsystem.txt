@@ -1,0 +1,59 @@
+@startuml
+title State diagram of the smartphone hardware subsystem
+
+[*] --> Off
+
+state "On" as On {
+    [*] --> Booting
+
+    Booting --> Waiting : Booting completed
+
+    state "Processor Subsystem" as Processor {
+        [*] --> CPU_Active
+        CPU_Active --> GPU_Active : High graphical load
+        GPU_Active --> CPU_Active : Lower graphical load
+        CPU_Active --> Thermal_Management : Overheating detected
+        GPU_Active --> Thermal_Management : Overheating detected
+        Thermal_Management --> CPU_Active : Cooling down
+    }
+
+    state "Sensors and Input" as Sensors {
+        [*] --> Inactive
+        Inactive --> Touchscreen : Touch detected
+        Inactive --> Accelerometer : Movement detected
+        Inactive --> Gyroscope : Orientation change
+        Inactive --> Proximity_Sensor : Object detected
+        Inactive --> Fingerprint_Scanner : Authentication request
+        Touchscreen --> Inactive : Touch processed
+        Accelerometer --> Inactive : No movement
+        Gyroscope --> Inactive : Stable position
+        Proximity_Sensor --> Inactive : No object
+        Fingerprint_Scanner --> Inactive : Authentication completed
+    }
+
+    state "Memory and Storage" as Memory {
+        [*] --> RAM_Active
+        RAM_Active --> Flash_Memory : Read/Write data
+        Flash_Memory --> RAM_Active : Data processing
+    }
+
+    state "Audio and Display" as Media {
+        [*] --> Display_Off
+        Display_Off --> Display_On : Power button pressed
+        Display_On --> Display_Off : Timeout or power button pressed
+        Display_On --> Audio_Active : Media playback
+        Audio_Active --> Display_On : Playback completed
+    }
+
+    Waiting --> Processor : User interaction
+    Processor --> Waiting : Idle timeout
+    Waiting --> Sensors : Device motion detected
+    Sensors --> Waiting : No sensor activity
+    Processor --> Overheating : Critical temperature
+    Overheating --> Waiting : Cooling down
+}
+
+Off --> On : Power button pressed
+On --> Off : Power off command
+
+@enduml
