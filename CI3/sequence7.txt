@@ -1,0 +1,31 @@
+@startuml
+
+title Оновлення програмного забезпечення
+
+actor Користувач
+participant "Смартфон" as Smartphone
+participant "Сервер оновлень" as UpdateServer
+participant "Система" as System
+participant "Дисплей" as Display
+
+Користувач -> Smartphone: Перевірка оновлень
+Smartphone -> UpdateServer: Запит доступних оновлень
+UpdateServer -> Smartphone: Відповідь із інформацією про оновлення
+Smartphone -> Display: Відображення інформації про оновлення
+Display -> Користувач: Сповіщення про доступне оновлення
+
+alt Користувач погоджується
+    Користувач -> Smartphone: Підтвердження оновлення
+    Smartphone -> UpdateServer: Завантаження оновлення
+    UpdateServer -> Smartphone: Передача файлів оновлення
+    Smartphone -> System: Перевірка цілісності файлів
+    System -> Smartphone: Підтвердження готовності до встановлення
+    Smartphone -> Користувач: Сповіщення про початок оновлення
+    Smartphone -> System: Встановлення оновлення
+    System -> Smartphone: Перезавантаження пристрою
+    Smartphone -> Користувач: Сповіщення про успішне оновлення
+else Користувач відмовляється
+    Smartphone -> Користувач: Відміна оновлення
+end
+
+@enduml

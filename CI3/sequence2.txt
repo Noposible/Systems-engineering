@@ -1,0 +1,26 @@
+@startuml
+
+title Розблокування екрану
+
+actor "Користувач" as User
+participant "Смартфон" as Smartphone
+participant "Екран" as Screen
+participant "Підсистема безпеки" as SecuritySystem
+participant "Операційна система" as OS
+
+User -> Screen: Активувати екран (тап/кнопка живлення)
+Screen -> OS: Запит на розблокування
+OS -> SecuritySystem: Перевірка способу автентифікації
+alt Біометрична автентифікація
+    SecuritySystem -> User: Запит на відбиток пальця/Face ID
+    User -> SecuritySystem: Надання біометричних даних
+    SecuritySystem -> OS: Верифікація успішна
+else Введення пароля/графічного ключа
+    SecuritySystem -> User: Запит на пароль/ключ
+    User -> SecuritySystem: Введення даних
+    SecuritySystem -> OS: Перевірка успішна
+end
+OS -> Screen: Розблокування екрану
+User <- Screen: Відображення головного екрану
+
+@enduml

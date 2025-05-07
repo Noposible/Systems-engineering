@@ -1,0 +1,21 @@
+@startuml
+title "Взаємодія з додатком"
+actor Користувач
+participant "Смартфон" as Smartphone
+participant "Додаток" as App
+
+Користувач -> Smartphone: Розблокування екрану
+Smartphone -> App: Запуск додатка
+App -> Smartphone: Завантаження інтерфейсу
+Smartphone -> Користувач: Відображення інтерфейсу
+
+Користувач -> App: Взаємодія з інтерфейсом (ввід даних, натискання кнопок)
+App -> Smartphone: Обробка введених даних
+Smartphone -> App: Надсилання запиту
+App -> Smartphone: Обробка та повернення результату
+Smartphone -> Користувач: Відображення результату
+
+Користувач -> Smartphone: Закриття додатка
+Smartphone -> App: Завершення роботи
+
+@enduml

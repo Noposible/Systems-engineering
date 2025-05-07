@@ -1,0 +1,21 @@
+@startuml
+
+title Увімкнення смартфона
+
+actor "Користувач" as User
+participant "Кнопка живлення" as PowerButton
+participant "Смартфон" as Smartphone
+participant "Підсистема живлення" as PowerSystem
+participant "Операційна система" as OS
+
+User -> PowerButton: Натискання кнопки живлення
+PowerButton -> PowerSystem: Активувати живлення
+PowerSystem -> Smartphone: Подати живлення
+Smartphone -> OS: Запуск операційної системи
+OS -> OS: Завантаження системних компонентів
+OS -> OS: Перевірка безпеки
+OS -> OS: Ініціалізація підсистем
+OS -> OS: Встановлення мережевого з'єднання
+User <- OS: Головний екран готовий
+
+@enduml

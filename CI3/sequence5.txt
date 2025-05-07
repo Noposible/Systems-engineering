@@ -1,0 +1,33 @@
+@startuml
+
+title Запуск камери
+
+actor Користувач
+participant "Смартфон" as Smartphone
+participant "Камера" as Camera
+participant "Сховище" as Storage
+
+Користувач -> Smartphone: Відкриття додатка камери
+Smartphone -> Camera: Ініціалізація
+Camera -> Smartphone: Перевірка доступу
+alt Немає дозволу
+    Smartphone -> Користувач: Запит на дозвіл
+    Користувач -> Smartphone: Надання дозволу
+end
+Camera -> Smartphone: Готовність
+Smartphone -> Користувач: Відображення інтерфейсу
+
+Користувач -> Smartphone: Натискання кнопки зйомки
+Smartphone -> Camera: Захоплення фото
+Camera -> Smartphone: Передача фото
+Smartphone -> Користувач: Відображення
+
+alt Підтвердження
+    Smartphone -> Storage: Збереження
+    Storage -> Smartphone: Підтвердження
+    Smartphone -> Користувач: Фото збережено
+else Відхилення
+    Smartphone -> Camera: Повторна зйомка
+end
+
+@enduml

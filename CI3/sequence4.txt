@@ -1,0 +1,30 @@
+@startuml
+
+title Встановлення з'єднання (Wi-Fi, мобільна мережа)
+
+actor Користувач
+participant "Смартфон" as Smartphone
+participant "Модуль зв'язку" as ConnectionModule
+participant "Мережа" as Network
+
+Користувач -> Smartphone: Увімкнення Wi-Fi або мобільної мережі
+Smartphone -> ConnectionModule: Ініціалізація модуля зв'язку
+ConnectionModule -> Network: Пошук доступних мереж
+Network -> ConnectionModule: Список доступних мереж
+ConnectionModule -> Smartphone: Відображення списку мереж
+
+Користувач -> Smartphone: Вибір мережі та введення пароля (якщо потрібно)
+Smartphone -> ConnectionModule: Надсилання запиту на підключення
+ConnectionModule -> Network: Аутентифікація та встановлення з'єднання
+Network -> ConnectionModule: Підтвердження успішного з'єднання
+ConnectionModule -> Smartphone: Підтвердження підключення
+Smartphone -> Користувач: Повідомлення про успішне з'єднання
+
+Користувач -> Smartphone: Використання Інтернету
+Smartphone -> ConnectionModule: Передача/отримання даних
+ConnectionModule -> Network: Обмін даними з мережею
+Network -> ConnectionModule: Повернення даних
+ConnectionModule -> Smartphone: Надання доступу до мережі
+Smartphone -> Користувач: Відображення контенту
+
+@enduml

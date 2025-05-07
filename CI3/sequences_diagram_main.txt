@@ -1,0 +1,28 @@
+@startuml
+
+title Sequences diagram
+
+actor "Людина" as User
+participant "Смартфон" as Smartphone
+
+ref over User, Smartphone : Увімкнути
+
+par 
+    ref over User, Smartphone : Завантаження системи
+    ref over User, Smartphone : Перевірка безпеки
+    ref over User, Smartphone : Ініціалізація підсистем
+    ref over User, Smartphone : Встановлення з'єднання
+end
+
+ref over User, Smartphone : Головний екран готовий
+
+par 
+    ref over User, Smartphone : Використання додатків
+    ref over User, Smartphone : Робота з інтерфейсом
+    ref over User, Smartphone : Виклики та повідомлення
+    ref over User, Smartphone : Управління живленням
+end
+
+ref over User, Smartphone : Вимкнення смартфона
+
+@enduml

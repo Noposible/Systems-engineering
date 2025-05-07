@@ -1,0 +1,34 @@
+@startuml
+
+title Перевірка заряду батареї
+
+actor Користувач
+participant "Смартфон" as Smartphone
+participant "Система живлення" as PowerSystem
+participant "Дисплей" as Display
+
+Користувач -> Smartphone: Перевірка рівня заряду
+Smartphone -> PowerSystem: Запит даних про батарею
+PowerSystem -> Smartphone: Повернення рівня заряду
+Smartphone -> Display: Відображення заряду
+Display -> Користувач: Відображення інформації
+
+alt Заряд низький
+    Smartphone -> Користувач: Сповіщення про низький заряд
+    Користувач -> Smartphone: Підключення зарядного пристрою
+    Smartphone -> PowerSystem: Початок заряджання
+    PowerSystem -> Smartphone: Оновлення рівня заряду
+    Smartphone -> Display: Оновлення статусу заряду
+    Display -> Користувач: Відображення статусу зарядки
+    alt Критично низький заряд
+        Smartphone -> Користувач: Попередження про можливе вимкнення
+    end
+end
+
+alt Заряд повний
+    Smartphone -> PowerSystem: Припинення заряджання
+    PowerSystem -> Smartphone: Підтвердження
+    Smartphone -> Користувач: Сповіщення про повний заряд
+end
+
+@enduml
